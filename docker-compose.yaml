@@ -2,18 +2,21 @@ version: '2'
 
 services:
   downstream:
+    platform: linux/amd64
     image: nginx:alpine
     ports:
       - 8282:80
     network_mode: bridge
 
   echo:
-    image: gcr.io/google_containers/echoserver:1.8
+    platform: linux/amd64
+    image: gcr.io/google-containers/echoserver-amd64:1.8
     ports:
       - 8383:8080
     network_mode: bridge
 
   proxy:
+    platform: linux/amd64
     build: .
     ports:
       - 80:80
@@ -25,18 +28,20 @@ services:
       - OID_SESSION_NAME=oidc_auth
 
       - OID_REDIRECT_PATH=/redirect_uri
-      - OID_DISCOVERY=http://192.168.99.100:8080/auth/realms/master/.well-known/openid-configuration
+      - OID_DISCOVERY=http://${HOST_IP}:8080/auth/realms/master/.well-known/openid-configuration
       - OID_CLIENT_ID=proxy
       - OID_CLIENT_SECRET=dee59d02-b1a9-455a-bd3c-38d2e060bf0f
       - OID_USE_PKCE=true
 
-      - PROXY_HOST=192.168.99.100
+      - PROXY_HOST=${HOST_IP}
       - PROXY_PORT=8383
       - PROXY_PROTOCOL=http
     network_mode: bridge
 
   keycloak:
-    image: jboss/keycloak
+    platform: linux/amd64
+    image: quay.io/keycloak/keycloak
+    command: start-dev
     ports:
       - 8080:8080
     environment:
