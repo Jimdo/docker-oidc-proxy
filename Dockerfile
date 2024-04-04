@@ -1,4 +1,4 @@
-FROM openresty/openresty:1.21.4.3-2-alpine
+FROM openresty/openresty:1.25.3.1-2-alpine
 MAINTAINER Heiko Voigt <heiko.voigt@jimdo.com>
 
 ENV \

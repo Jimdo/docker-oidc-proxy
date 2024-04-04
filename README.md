@@ -48,6 +48,20 @@ docker run \
   evry/oidc-proxy
 ```
 
+## Testing
+
+```
+HOST_IP=<your machine ip> docker compose up -d
+```
+
+Open http://localhost:8080 in your browser and you should be able to login to
+keycloak using user `root` and `root` as password.
+
+Add a client configuration in Keycloak with the following settings:
+
+* Client ID: `proxy`
+* Copy the `Client Secret` and set it as `OID_CLIENT_SECRET`
+
 ## License
 
 This Docker image is licensed under the [MIT License](https://github.com/evry/docker-oidc-proxy/blob/master/LICENSE).
